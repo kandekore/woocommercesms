@@ -2,7 +2,7 @@ https://github.com/kandekore/woocommercesms.git<?php
 /**
  * Plugin Name: WP Woo SMS
  * Description: Sends an SMS message to the customer when an order is completed.
- * Version: 1.0
+ * Version: 1.0.1
  * Author: Darren kandekore
  */
 
