@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WP Woo SMS (credits version)
+ * Plugin Name: WP Woo SMS
  * Description: Sends an SMS message to the customer when an order is completed.
  * Version: 1.0
  * Author: Darren kandekore
@@ -42,9 +42,20 @@ function order_message_plugin_settings_page() {
             <?php do_settings_sections('order-message-plugin'); ?>
             <?php submit_button(); ?>
         </form>
+        <h2>Credit Balance</h2>
+        <p id="credit-balance"></p>
+        <script type="text/javascript">
+            function fetch_credit_balance() {
+                jQuery.post(ajaxurl, {action: 'get_user_credits'}, function(response) {
+                    jQuery('#credit-balance').text('Your current credit balance: ' + response);
+                });
+            }
+            setInterval(fetch_credit_balance, 5000); // Fetch every 5 seconds
+        </script>
     </div>
     <?php
 }
+
 
 // Register the plugin settings
 function order_message_plugin_register_settings() {
@@ -109,11 +120,14 @@ function deduct_credit($user_id) {
     // Deduct one credit from the balance
     $updated_credits = $current_credits - 1;
 
+    // Delete the current credits meta data to clear the cache
+    delete_user_meta($user_id, 'credits');
+
     // Update the credit balance in the user's meta data
     update_user_meta($user_id, 'credits', $updated_credits);
 
     // Check if the credits are depleted
-    if ($updated_credits <= 0) {
+    if ($updated_credits <= 0 && $current_credits > 0) {
         // Credits depleted, send an email notification to the admin
         $admin_email = get_option('admin_email'); // Get the admin email address
         $subject = 'Credit Depletion Notification';
@@ -194,6 +208,9 @@ function topup_credits_page() {
         $user_id = get_current_user_id(); // Get the current user's ID
         $current_credits = get_user_meta($user_id, 'credits', true); // Get the current credit balance
 
+        // Delete the current credits meta data to clear the cache
+        delete_user_meta($user_id, 'credits');
+
         // Update the credit balance with the additional credits
         update_user_meta($user_id, 'credits', $current_credits + $credits);
 
@@ -210,3 +227,10 @@ function topup_credits_page() {
     </div>
     <?php
 }
+function ajax_get_user_credits() {
+    $user_id = get_current_user_id();
+    echo get_user_meta($user_id, 'credits', true);
+    wp_die(); // this is required to terminate immediately and return a proper response
+}
+add_action('wp_ajax_get_user_credits', 'ajax_get_user_credits');
+
