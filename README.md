@@ -18,6 +18,7 @@ The **WP Woo SMS** plugin is a powerful tool that sends an SMS message to custom
 - [Author](#author)
 - [Contributing](#contributing)
 - [License](#license)
+- [Changelog](#changelog)
 
 ## Prerequisites
 
@@ -86,11 +87,11 @@ The WP Woo SMS plugin utilises several hooks and actions for extending the plugi
 
 ## Support
 
-For support, issues, or feature requests, please submit an issue on the [GitHub repository](https://github.com/). 
+For any inquiries or support requests, please contact [darren@kandekore.net](mailto:darren@kandekore.net).
 
 ## Author
 
-[Author Name](Author Profile Link)
+[Darren Kandekore](https://github.com/kandekore)
 
 ## Contributing
 
@@ -99,3 +100,8 @@ Please see the [CONTRIBUTING.md](CONTRIBUTING.md) for details on how you can con
 ## License
 
 This plugin is released under the GPLv2 or later license. See the [LICENSE](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html) file for more details.
+
+## Changelog
+
+### Version 1.0
+- Initial release
